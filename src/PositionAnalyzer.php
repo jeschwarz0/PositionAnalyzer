@@ -107,6 +107,11 @@ class PositionAnalyzer
     /**
      * 
      * Generates an HTML list from analyzer output array with tabs.
+     * Output uses the following css classes:
+     * pa-catmatch: The category matches (>= 0%)
+     * pa-catmismatch: The category does not match (< 0%)
+     * pa-titlematch: The title matches a value for category
+     * pa-globalcat: The category is global
      * 
      * @param array $input The analyzer summary to use
      * @param int $tabCount The number of tabs to prepend to html output

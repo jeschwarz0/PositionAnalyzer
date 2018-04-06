@@ -103,5 +103,39 @@ class PositionAnalyzer
         }
         return round($pct);
     }
+    
+    /**
+     * 
+     * Generates an HTML list from analyzer output array with tabs.
+     * 
+     * @param array $input The analyzer summary to use
+     * @param int $tabCount The number of tabs to prepend to html output
+     * @return string The html markup of the analysis summary.
+     */
+    public static function BuildSummaryList1(&$input, $tabCount = 0)
+    { 
+        $html = $tabs = '';
+        // Build tab prefix of $tabCount
+        if (is_int($tabCount))
+            for ($tabidx = 0; $tabidx < $tabCount; $tabidx++)
+                $tabs .= "\t";
+        else $tabs = '';
+        if (is_array($input)){
+            $html .= "$tabs<ul>" . PHP_EOL;
+            foreach ($input as $categoryKey => $categoryValue){
+                if ($categoryValue['any_match'] === true){
+                    $verbose_summary = 'title="' . $categoryValue['sum'] . ': ';
+                    foreach($categoryValue['entries'] as $entryKey => $entryValue){
+                        if ($entryValue['score'] !== 0)
+                            $verbose_summary .= htmlspecialchars($entryKey) . "(" . $entryValue['score'] . ($entryValue['is_match'] ? 'm' : 'n') . ") ";
+                    }
+                    $verbose_summary .= '"';
+                    $html.= "$tabs\t<li $verbose_summary" . ' class="' . ($categoryValue['pct'] >= 0 ? 'pa-catmatch' : 'pa-catmismatch') . ($categoryValue['title_match'] ? ' pa-titlematch' : '') . ($categoryValue['is_global'] ? ' pa-globalcat' : '') . '">' . htmlspecialchars($categoryKey) . " : " . $categoryValue['pct'] . "%</li>" . PHP_EOL;
+                }
+            }
+            $html .= "$tabs</ul>" . PHP_EOL;
+        }
+        return $html;
+    }
 }
 ?>

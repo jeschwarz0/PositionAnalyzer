@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!--
+    An example how to use this DTD from your XML document:
+
+    <?xml version="1.0"?>
+
+    <!DOCTYPE PAEntry SYSTEM "PAConfig-v2.dtd">
+
+    <PAEntry>
+        <ConfigVersion>2</ConfigVersion>
+        <SearchEntry>
+            <Name>sample</Name>
+            <SearchTerms>
+                <Term>sample 1</Term>
+                <Term>sample 2</Term>
+            </SearchTerms>
+        </SearchEntry>
+        <SearchCategory>
+            <Name>Sample Category</Name>
+            <CategoryTitle>
+                <Term>Title 1</Term>
+                <Term>Title 2</Term>
+            </CategoryTitle>
+            <CategoryValue>
+                <EntryName>sample</EntryName>
+                <MatchValue>10</MatchValue>
+                <NonMatchValue>-10</NonMatchValue>
+            </CategoryValue>
+        </SearchCategory>
+    </PAEntry>
+-->
+
+<!--- The root element. -->
+<!ELEMENT PAEntry (ConfigVersion|SearchEntry|SearchCategory)*>
+
+<!--- The configuration version. -->
+<!ELEMENT ConfigVersion (#PCDATA)>
+
+<!--- A collection of SearchEntry nodes. -->
+<!ELEMENT SearchEntry (Name|SearchTerms)*>
+
+<!--- The identifier of the Entry node. -->
+<!ELEMENT Name (#PCDATA)>
+
+<!--- A collection of term nodes. -->
+<!ELEMENT SearchTerms (Term)*>
+
+<!--- A term node. -->
+<!ELEMENT Term (#PCDATA)>
+
+<!--- A collection of SearchCategory nodes. -->
+<!ELEMENT SearchCategory (Name|CategoryValue|CategoryTitle)*>
+<!ATTLIST SearchCategory
+    isglobal CDATA #IMPLIED
+  >
+
+<!--- A collection of CategoryValue nodes. -->
+<!ELEMENT CategoryValue (EntryName|MatchValue|NonMatchValue)*>
+
+<!--- An alias to an entry name -->
+<!ELEMENT EntryName (#PCDATA)>
+
+<!--- The numeric value if the keyword is found. -->
+<!ELEMENT MatchValue (#PCDATA)>
+
+<!--- The numeric value if the keyword is not found. -->
+<!ELEMENT NonMatchValue (#PCDATA)>
+
+<!--- The title of the category. -->
+<!ELEMENT CategoryTitle (Term)*>
